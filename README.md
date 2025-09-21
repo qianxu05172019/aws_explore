@@ -76,13 +76,7 @@ root@08ab723f1323:/opt#
 ---
 
 ### 6. Checking Python & Squidpy  
-Tried:  
-```bash
-python -c "import squidpy, scanpy; print('squidpy', squidpy.__version__)"
-```
-Error: `bash: python: command not found`
 
-👉 Fix: use `python3` instead  
 ```bash
 python3 -c "import squidpy, scanpy; print('squidpy', squidpy.__version__)"
 ```
@@ -97,13 +91,15 @@ Confirmed Squidpy installed correctly.
 ---
 
 ### 7. Launching JupyterLab  
-# Make sure pip is available
+Make sure pip is available
 apt update && apt install -y python3-pip
 
-# Install JupyterLab
-pip3 install jupyterlab
+Install JupyterLab
+
 
 ```bash
+python3 -m pip install -U --no-cache-dir jupyterlab notebook
+pip3 install jupyterlab
 jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
 
