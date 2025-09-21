@@ -13,13 +13,6 @@
 ssh -i my-key.pem -N -C -L 8888:localhost:8888 ubuntu@<EC2_Public_IP>
 ```
 
-⚠️ Error:  
-```
-Warning: Identity file my-key.pem not accessible: No such file or directory.
-```
-👉 Root cause: wrong file name / path.  
-
----
 
 ### 2. Fixing Private Key Permissions  
 After pointing to the correct file, got another error:  
@@ -104,13 +97,12 @@ Confirmed Squidpy installed correctly.
 ---
 
 ### 7. Launching JupyterLab  
-First wrong attempt (extra spaces around `=`):  
-```bash
-jupyter lab --ip = 0.0.0.0 --port = 8888 --no-browser
-```
-Error: `unrecognized arguments: 8888`
+# Make sure pip is available
+apt update && apt install -y python3-pip
 
-👉 Corrected command:  
+# Install JupyterLab
+pip3 install jupyterlab
+
 ```bash
 jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root
 ```
