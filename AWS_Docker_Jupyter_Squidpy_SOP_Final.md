@@ -98,6 +98,51 @@ docker logs squidpy | grep -i token
 
 ---
 
+
+---
+
+
+---
+
+## 📂 Mount EBS Data Volume
+
+After each `Stop` / `Start` cycle of your EC2 instance, make sure the data volume is mounted to `/mnt/data` before starting Docker:
+
+```bash
+# Check available disks and filesystems
+lsblk -f
+
+# Create the mount point (only first time)
+sudo mkdir -p /mnt/data
+
+# Mount the data volume (adjust device name if needed)
+sudo mount /dev/nvme1n1 /mnt/data
+
+# Ensure ubuntu user has access
+sudo chown ubuntu:ubuntu /mnt/data
+
+# Verify files are visible
+ls -al /mnt/data | head
+```
+
+👉 If you want the mount to persist automatically after Stop/Start, add the UUID of `/dev/nvme1n1` into `/etc/fstab`.
+
+
+## ♻️ Re-create container (only if the bind mount is wrong or missing)
+
+If after a Stop/Start cycle your Jupyter `/workspace` does **not** show the content of the EBS volume (`/mnt/data` on the host),
+recreate the container to ensure the bind mount `-v /mnt/data:/workspace` is present:
+
+```bash
+docker stop squidpy
+docker rm squidpy
+
+docker run -d   -p 8888:8888   -v /mnt/data:/workspace   --name squidpy   --restart unless-stopped   my-squidpy-jlab:latest
+```
+
+After this, open the SSH tunnel on your laptop and visit `http://localhost:8888` as usual.
+
+
 ## ✅ Achievements
 - Solved corporate firewall restrictions by running SSH on port 443.  
 - Solved data loss problem with persistent EBS volume.  
