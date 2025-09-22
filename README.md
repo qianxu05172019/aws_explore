@@ -1,6 +1,6 @@
 # AWS_Squidpy_Journey
 
-## 🚀 My First Attempt Running Squidpy on AWS – Full Exploration Log  
+## Running Squidpy on AWS – Full Exploration Log  
 
 ---
 
