@@ -137,7 +137,13 @@ recreate the container to ensure the bind mount `-v /mnt/data:/workspace` is pre
 docker stop squidpy
 docker rm squidpy
 
-docker run -d   -p 8888:8888   -v /mnt/data:/workspace   --name squidpy   --restart unless-stopped   my-squidpy-jlab:latest
+docker run -d   -p 8888:8888   -v /mnt/data:/workspace   --name squidpy   --restart unless-stopped   my-squidpy-jlab:latest \
+  jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \
+  --ServerApp.root_dir=/workspace
+
+
+ssh -i ~/Downloads/squidpy-server-aws.pem -p 443 -N -L 8888:localhost:8888 ubuntu@<Public_IP>
+
 ```
 
 After this, open the SSH tunnel on your laptop and visit `http://localhost:8888` as usual.
